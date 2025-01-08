@@ -689,14 +689,12 @@ function Library:CreateWindow(name)
         end
 
         function TabContent:CreateColorPicker(name, default, callback)
-            -- Main Container
+            -- Main Container Setup
             local ColorPicker = Instance.new("Frame")
             local Background = Instance.new("Frame")
-            local UICorner = Instance.new("UICorner")
             local Label = Instance.new("TextLabel")
             local ColorButton = Instance.new("Frame")
             
-            -- Setup main container
             ColorPicker.Name = name
             ColorPicker.Parent = Content
             ColorPicker.BackgroundTransparency = 1
@@ -707,9 +705,7 @@ function Library:CreateWindow(name)
             Background.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
             Background.Size = UDim2.new(1, -20, 1, -5)
             Background.Position = UDim2.new(0, 10, 0, 0)
-
-            UICorner.CornerRadius = UDim.new(0, 4)
-            UICorner.Parent = Background
+            Instance.new("UICorner", Background).CornerRadius = UDim.new(0, 4)
 
             Label.Parent = Background
             Label.BackgroundTransparency = 1
@@ -727,25 +723,19 @@ function Library:CreateWindow(name)
             ColorButton.Position = UDim2.new(1, -40, 0.5, -8)
             ColorButton.Size = UDim2.new(0, 30, 0, 16)
             ColorButton.BorderSizePixel = 0
-
-            local UICorner_2 = Instance.new("UICorner")
-            UICorner_2.CornerRadius = UDim.new(0, 4)
-            UICorner_2.Parent = ColorButton
+            Instance.new("UICorner", ColorButton).CornerRadius = UDim.new(0, 4)
 
             -- Color Picker Window
             local PickerFrame = Instance.new("Frame")
             PickerFrame.Name = "PickerFrame"
-            PickerFrame.Size = UDim2.new(0, 200, 0, 240) -- Increased height for buttons
-            PickerFrame.Position = UDim2.new(0.5, -100, 0.5, -120)
+            PickerFrame.Size = UDim2.new(0, 200, 0, 220)
+            PickerFrame.Position = UDim2.new(0.5, -100, 0.5, -110)
             PickerFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
             PickerFrame.BorderSizePixel = 0
             PickerFrame.Visible = false
             PickerFrame.ZIndex = 100
             PickerFrame.Parent = ColorPicker
-
-            local UICorner_3 = Instance.new("UICorner")
-            UICorner_3.CornerRadius = UDim.new(0, 6)
-            UICorner_3.Parent = PickerFrame
+            Instance.new("UICorner", PickerFrame).CornerRadius = UDim.new(0, 6)
 
             -- Color Area
             local ColorArea = Instance.new("ImageLabel")
@@ -756,10 +746,7 @@ function Library:CreateWindow(name)
             ColorArea.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
             ColorArea.ZIndex = 101
             ColorArea.Parent = PickerFrame
-
-            local UICorner_4 = Instance.new("UICorner")
-            UICorner_4.CornerRadius = UDim.new(0, 4)
-            UICorner_4.Parent = ColorArea
+            Instance.new("UICorner", ColorArea).CornerRadius = UDim.new(0, 4)
 
             -- Hue Slider
             local HueSlider = Instance.new("Frame")
@@ -769,10 +756,7 @@ function Library:CreateWindow(name)
             HueSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             HueSlider.ZIndex = 101
             HueSlider.Parent = PickerFrame
-
-            local UICorner_5 = Instance.new("UICorner")
-            UICorner_5.CornerRadius = UDim.new(0, 4)
-            UICorner_5.Parent = HueSlider
+            Instance.new("UICorner", HueSlider).CornerRadius = UDim.new(0, 4)
 
             local HueGradient = Instance.new("UIGradient")
             HueGradient.Color = ColorSequence.new({
@@ -789,52 +773,44 @@ function Library:CreateWindow(name)
             -- Buttons
             local ButtonsHolder = Instance.new("Frame")
             ButtonsHolder.Name = "ButtonsHolder"
-            ButtonsHolder.Size = UDim2.new(1, -20, 0, 30)
-            ButtonsHolder.Position = UDim2.new(0, 10, 1, -40)
+            ButtonsHolder.Size = UDim2.new(1, -20, 0, 25)
+            ButtonsHolder.Position = UDim2.new(0, 10, 1, -35)
             ButtonsHolder.BackgroundTransparency = 1
             ButtonsHolder.ZIndex = 101
             ButtonsHolder.Parent = PickerFrame
 
-            local ConfirmButton = Instance.new("TextButton")
-            ConfirmButton.Name = "Confirm"
-            ConfirmButton.Size = UDim2.new(0.5, -5, 1, 0)
-            ConfirmButton.Position = UDim2.new(0, 0, 0, 0)
-            ConfirmButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            ConfirmButton.Text = "Confirm"
-            ConfirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            ConfirmButton.Font = Enum.Font.GothamBold
-            ConfirmButton.TextSize = 14
-            ConfirmButton.ZIndex = 101
-            ConfirmButton.Parent = ButtonsHolder
-            ConfirmButton.AutoButtonColor = false
+            local function CreateButton(name, position)
+                local button = Instance.new("TextButton")
+                button.Name = name
+                button.Size = UDim2.new(0.5, -5, 1, 0)
+                button.Position = position
+                button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                button.Text = name
+                button.TextColor3 = Color3.fromRGB(255, 255, 255)
+                button.Font = Enum.Font.GothamBold
+                button.TextSize = 14
+                button.ZIndex = 101
+                button.AutoButtonColor = false
+                button.Parent = ButtonsHolder
+                Instance.new("UICorner", button).CornerRadius = UDim.new(0, 4)
+                return button
+            end
 
-            local CancelButton = Instance.new("TextButton")
-            CancelButton.Name = "Cancel"
-            CancelButton.Size = UDim2.new(0.5, -5, 1, 0)
-            CancelButton.Position = UDim2.new(0.5, 5, 0, 0)
-            CancelButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            CancelButton.Text = "Cancel"
-            CancelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            CancelButton.Font = Enum.Font.GothamBold
-            CancelButton.TextSize = 14
-            CancelButton.ZIndex = 101
-            CancelButton.Parent = ButtonsHolder
-            CancelButton.AutoButtonColor = false
+            local ConfirmButton = CreateButton("Confirm", UDim2.new(0, 0, 0, 0))
+            local CancelButton = CreateButton("Cancel", UDim2.new(0.5, 5, 0, 0))
 
-            local ConfirmCorner = Instance.new("UICorner")
-            ConfirmCorner.CornerRadius = UDim.new(0, 4)
-            ConfirmCorner.Parent = ConfirmButton
-
-            local CancelCorner = Instance.new("UICorner")
-            CancelCorner.CornerRadius = UDim.new(0, 4)
-            CancelCorner.Parent = CancelButton
-
-            -- Variables
+            -- Variables and Color Logic
             local pickerOpen = false
             local hue, sat, val = 0, 1, 1
             local selectedColor = default or Color3.fromRGB(255, 255, 255)
+            local originalColor = selectedColor
 
-            -- Color picking logic
+            -- Color Selection Logic
+            local function updateColor()
+                selectedColor = Color3.fromHSV(hue, sat, val)
+                ColorButton.BackgroundColor3 = selectedColor
+            end
+
             ColorArea.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     local connection
@@ -846,8 +822,7 @@ function Library:CreateWindow(name)
                         )
                         sat = relative.X
                         val = 1 - relative.Y
-                        selectedColor = Color3.fromHSV(hue, sat, val)
-                        ColorButton.BackgroundColor3 = selectedColor
+                        updateColor()
                     end)
 
                     UserInputService.InputEnded:Connect(function(input)
@@ -869,8 +844,7 @@ function Library:CreateWindow(name)
                         )
                         hue = relative
                         ColorArea.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
-                        selectedColor = Color3.fromHSV(hue, sat, val)
-                        ColorButton.BackgroundColor3 = selectedColor
+                        updateColor()
                     end)
 
                     UserInputService.InputEnded:Connect(function(input)
@@ -881,11 +855,14 @@ function Library:CreateWindow(name)
                 end
             end)
 
-            -- Button handlers
+            -- Button Handlers
             ColorButton.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     pickerOpen = not pickerOpen
                     PickerFrame.Visible = pickerOpen
+                    if pickerOpen then
+                        originalColor = ColorButton.BackgroundColor3
+                    end
                 end
             end)
 
@@ -898,13 +875,13 @@ function Library:CreateWindow(name)
             end)
 
             CancelButton.MouseButton1Click:Connect(function()
-                ColorButton.BackgroundColor3 = default
-                selectedColor = default
+                ColorButton.BackgroundColor3 = originalColor
+                selectedColor = originalColor
                 pickerOpen = false
                 PickerFrame.Visible = false
             end)
 
-            -- Button hover effects
+            -- Button Hover Effects
             local function addButtonEffect(button)
                 button.MouseEnter:Connect(function()
                     TweenService:Create(button, TweenInfo.new(0.2), {
