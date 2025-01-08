@@ -814,7 +814,84 @@ function Library:CreateWindow(name)
                 PickerFrame.Visible = false
             end)
 
-            -- Color picking logic
+            -- Add Confirm/Cancel buttons
+            local ButtonsHolder = Instance.new("Frame")
+            ButtonsHolder.Name = "ButtonsHolder"
+            ButtonsHolder.Size = UDim2.new(1, -20, 0, 30)
+            ButtonsHolder.Position = UDim2.new(0, 10, 0, 180)
+            ButtonsHolder.BackgroundTransparency = 1
+            ButtonsHolder.ZIndex = 101
+            ButtonsHolder.Parent = PickerFrame
+
+            local ConfirmButton = Instance.new("TextButton")
+            ConfirmButton.Name = "Confirm"
+            ConfirmButton.Size = UDim2.new(0.5, -5, 1, 0)
+            ConfirmButton.Position = UDim2.new(0, 0, 0, 0)
+            ConfirmButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            ConfirmButton.Text = "Confirm"
+            ConfirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ConfirmButton.Font = Enum.Font.GothamBold
+            ConfirmButton.TextSize = 14
+            ConfirmButton.ZIndex = 101
+            ConfirmButton.Parent = ButtonsHolder
+
+            local CancelButton = Instance.new("TextButton")
+            CancelButton.Name = "Cancel"
+            CancelButton.Size = UDim2.new(0.5, -5, 1, 0)
+            CancelButton.Position = UDim2.new(0.5, 5, 0, 0)
+            CancelButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            CancelButton.Text = "Cancel"
+            CancelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            CancelButton.Font = Enum.Font.GothamBold
+            CancelButton.TextSize = 14
+            CancelButton.ZIndex = 101
+            CancelButton.Parent = ButtonsHolder
+
+            -- Add corners to buttons
+            local ConfirmCorner = Instance.new("UICorner")
+            ConfirmCorner.CornerRadius = UDim.new(0, 4)
+            ConfirmCorner.Parent = ConfirmButton
+
+            local CancelCorner = Instance.new("UICorner")
+            CancelCorner.CornerRadius = UDim.new(0, 4)
+            CancelCorner.Parent = CancelButton
+
+            -- Update the color picking logic to include UI updates
+            local function updateUIColors(color)
+                -- Update TopBar
+                local TopBar = Window.Main:FindFirstChild("TopBar")
+                if TopBar then
+                    TopBar.BackgroundColor3 = color
+                end
+
+                -- Update active tab indicator
+                for _, tab in pairs(Tabs) do
+                    local indicator = tab:FindFirstChild("Indicator")
+                    if indicator and indicator.BackgroundTransparency == 0 then -- This is the active tab
+                        indicator.BackgroundColor3 = color
+                    end
+                end
+
+                -- Update other UI elements that should use the theme color
+                ColorButton.BackgroundColor3 = color
+            end
+
+            -- Modify the confirm/cancel button handlers
+            ConfirmButton.MouseButton1Click:Connect(function()
+                local finalColor = ColorButton.BackgroundColor3
+                updateUIColors(finalColor)
+                if callback then callback(finalColor) end
+                pickerOpen = false
+                PickerFrame.Visible = false
+            end)
+
+            CancelButton.MouseButton1Click:Connect(function()
+                ColorButton.BackgroundColor3 = default -- Revert to previous color
+                pickerOpen = false
+                PickerFrame.Visible = false
+            end)
+
+            -- Update the color picking logic to use the new updateUIColors function
             ColorArea.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     local connection
@@ -828,7 +905,6 @@ function Library:CreateWindow(name)
                         val = 1 - relative.Y
                         local color = Color3.fromHSV(hue, sat, val)
                         ColorButton.BackgroundColor3 = color
-                        if callback then callback(color) end
                     end)
 
                     UserInputService.InputEnded:Connect(function(input)
