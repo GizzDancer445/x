@@ -817,8 +817,8 @@ function Library:CreateWindow(name)
             -- Add Confirm/Cancel buttons
             local ButtonsHolder = Instance.new("Frame")
             ButtonsHolder.Name = "ButtonsHolder"
-            ButtonsHolder.Size = UDim2.new(1, -20, 0, 30)
-            ButtonsHolder.Position = UDim2.new(0, 10, 0, 180)
+            ButtonsHolder.Size = UDim2.new(1, -20, 0, 25)
+            ButtonsHolder.Position = UDim2.new(0, 10, 1, -35)
             ButtonsHolder.BackgroundTransparency = 1
             ButtonsHolder.ZIndex = 101
             ButtonsHolder.Parent = PickerFrame
@@ -856,30 +856,9 @@ function Library:CreateWindow(name)
             CancelCorner.CornerRadius = UDim.new(0, 4)
             CancelCorner.Parent = CancelButton
 
-            -- Update the color picking logic to include UI updates
-            local function updateUIColors(color)
-                -- Update TopBar
-                local TopBar = Window.Main:FindFirstChild("TopBar")
-                if TopBar then
-                    TopBar.BackgroundColor3 = color
-                end
-
-                -- Update active tab indicator
-                for _, tab in pairs(Tabs) do
-                    local indicator = tab:FindFirstChild("Indicator")
-                    if indicator and indicator.BackgroundTransparency == 0 then -- This is the active tab
-                        indicator.BackgroundColor3 = color
-                    end
-                end
-
-                -- Update other UI elements that should use the theme color
-                ColorButton.BackgroundColor3 = color
-            end
-
-            -- Modify the confirm/cancel button handlers
+            -- Add button handlers
             ConfirmButton.MouseButton1Click:Connect(function()
                 local finalColor = ColorButton.BackgroundColor3
-                updateUIColors(finalColor)
                 if callback then callback(finalColor) end
                 pickerOpen = false
                 PickerFrame.Visible = false
