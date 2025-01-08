@@ -699,25 +699,19 @@ function Library:CreateWindow(name)
             -- Color Picker UI
             local PickerFrame = Instance.new("Frame")
             local UICorner_3 = Instance.new("UICorner")
-            local Gradient = Instance.new("Frame")
-            local UIGradient = Instance.new("UIGradient")
+            local ColorArea = Instance.new("ImageLabel")
             local UICorner_4 = Instance.new("UICorner")
-            local Saturation = Instance.new("ImageLabel")
-            local UICorner_5 = Instance.new("UICorner")
             local Cursor = Instance.new("ImageLabel")
             local HueSlider = Instance.new("Frame")
-            local UICorner_6 = Instance.new("UICorner")
-            local HueGradient = Instance.new("UIGradient")
+            local UIGradient = Instance.new("UIGradient")
+            local UICorner_5 = Instance.new("UICorner")
             local HueCursor = Instance.new("Frame")
-            local UICorner_7 = Instance.new("UICorner")
-            local TransparencySlider = Instance.new("Frame")
-            local UICorner_8 = Instance.new("UICorner")
-            local TransparencyGradient = Instance.new("UIGradient")
-            local TransCursor = Instance.new("Frame")
-            local UICorner_9 = Instance.new("UICorner")
-            local ConfirmButton = Instance.new("ImageButton")
-            local CancelButton = Instance.new("ImageButton")
-            
+            local UICorner_6 = Instance.new("UICorner")
+            local ButtonsHolder = Instance.new("Frame")
+            local ConfirmButton = Instance.new("TextButton")
+            local CancelButton = Instance.new("TextButton")
+
+            -- Set up main elements
             ColorPicker.Name = name
             ColorPicker.Parent = Content
             ColorPicker.BackgroundTransparency = 1
@@ -729,78 +723,33 @@ function Library:CreateWindow(name)
             Background.Size = UDim2.new(1, -20, 1, -5)
             Background.Position = UDim2.new(0, 10, 0, 0)
 
-            UICorner.CornerRadius = UDim.new(0, 4)
-            UICorner.Parent = Background
-
-            Label.Parent = Background
-            Label.BackgroundTransparency = 1
-            Label.Position = UDim2.new(0, 10, 0, 0)
-            Label.Size = UDim2.new(1, -60, 1, 0)
-            Label.Font = Enum.Font.GothamMedium
-            Label.Text = name
-            Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Label.TextSize = 14
-            Label.TextXAlignment = Enum.TextXAlignment.Left
-
-            ColorDisplay.Name = "ColorDisplay"
-            ColorDisplay.Parent = Background
-            ColorDisplay.BackgroundColor3 = default or Color3.fromRGB(255, 255, 255)
-            ColorDisplay.Position = UDim2.new(1, -45, 0.5, -10)
-            ColorDisplay.Size = UDim2.new(0, 35, 0, 20)
-
-            UICorner_2.CornerRadius = UDim.new(0, 4)
-            UICorner_2.Parent = ColorDisplay
-
-            -- Create Color Picker Frame
+            -- Set up picker frame
             PickerFrame.Name = "PickerFrame"
             PickerFrame.Parent = Background
             PickerFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
             PickerFrame.Position = UDim2.new(1, 10, 0, 0)
-            PickerFrame.Size = UDim2.new(0, 200, 0, 240)
+            PickerFrame.Size = UDim2.new(0, 200, 0, 225)
             PickerFrame.Visible = false
-            PickerFrame.ZIndex = 10
+            PickerFrame.ZIndex = 100
 
-            UICorner_3.CornerRadius = UDim.new(0, 6)
-            UICorner_3.Parent = PickerFrame
+            -- Color Area (Saturation/Value)
+            ColorArea.Name = "ColorArea"
+            ColorArea.Parent = PickerFrame
+            ColorArea.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+            ColorArea.Position = UDim2.new(0, 10, 0, 10)
+            ColorArea.Size = UDim2.new(1, -40, 0, 150)
+            ColorArea.Image = "rbxassetid://4155801252"
+            ColorArea.ZIndex = 101
 
-            Gradient.Name = "Gradient"
-            Gradient.Parent = PickerFrame
-            Gradient.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-            Gradient.Position = UDim2.new(0, 10, 0, 10)
-            Gradient.Size = UDim2.new(1, -20, 0, 160)
-            Gradient.ZIndex = 11
-
-            UICorner_4.CornerRadius = UDim.new(0, 4)
-            UICorner_4.Parent = Gradient
-
-            Saturation.Name = "Saturation"
-            Saturation.Parent = Gradient
-            Saturation.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            Saturation.Size = UDim2.new(1, 0, 1, 0)
-            Saturation.ZIndex = 12
-            Saturation.Image = "rbxassetid://4155801252"
-
-            UICorner_5.CornerRadius = UDim.new(0, 4)
-            UICorner_5.Parent = Saturation
-
-            Cursor.Name = "Cursor"
-            Cursor.Parent = Saturation
-            Cursor.BackgroundTransparency = 1
-            Cursor.Size = UDim2.new(0, 8, 0, 8)
-            Cursor.ZIndex = 15
-            Cursor.Image = "rbxassetid://5100115962"
-
+            -- Hue Slider
             HueSlider.Name = "HueSlider"
             HueSlider.Parent = PickerFrame
             HueSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            HueSlider.Position = UDim2.new(0, 10, 0, 180)
-            HueSlider.Size = UDim2.new(1, -20, 0, 15)
-            HueSlider.ZIndex = 11
+            HueSlider.Position = UDim2.new(0, 10, 0, 170)
+            HueSlider.Size = UDim2.new(1, -40, 0, 15)
+            HueSlider.ZIndex = 101
 
-            UICorner_6.CornerRadius = UDim.new(0, 4)
-            UICorner_6.Parent = HueSlider
-
-            HueGradient.Color = ColorSequence.new({
+            UIGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
                 ColorSequenceKeypoint.new(0.167, Color3.fromRGB(255, 255, 0)),
                 ColorSequenceKeypoint.new(0.333, Color3.fromRGB(0, 255, 0)),
@@ -809,220 +758,134 @@ function Library:CreateWindow(name)
                 ColorSequenceKeypoint.new(0.833, Color3.fromRGB(255, 0, 255)),
                 ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
             })
-            HueGradient.Parent = HueSlider
+            UIGradient.Parent = HueSlider
 
-            HueCursor.Name = "HueCursor"
-            HueCursor.Parent = HueSlider
-            HueCursor.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            HueCursor.Size = UDim2.new(0, 3, 1, 0)
-            HueCursor.ZIndex = 12
+            -- Buttons
+            ButtonsHolder.Name = "ButtonsHolder"
+            ButtonsHolder.Parent = PickerFrame
+            ButtonsHolder.BackgroundTransparency = 1
+            ButtonsHolder.Position = UDim2.new(0, 10, 0, 195)
+            ButtonsHolder.Size = UDim2.new(1, -20, 0, 20)
 
-            UICorner_7.CornerRadius = UDim.new(0, 2)
-            UICorner_7.Parent = HueCursor
+            ConfirmButton.Name = "Confirm"
+            ConfirmButton.Parent = ButtonsHolder
+            ConfirmButton.BackgroundColor3 = Color3.fromRGB(40, 200, 40)
+            ConfirmButton.Position = UDim2.new(0, 0, 0, 0)
+            ConfirmButton.Size = UDim2.new(0.48, 0, 1, 0)
+            ConfirmButton.Font = Enum.Font.GothamBold
+            ConfirmButton.Text = "✓"
+            ConfirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ConfirmButton.TextSize = 14
+            ConfirmButton.ZIndex = 101
 
-            TransparencySlider.Name = "TransparencySlider"
-            TransparencySlider.Parent = PickerFrame
-            TransparencySlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            TransparencySlider.Position = UDim2.new(0, 10, 0, 205)
-            TransparencySlider.Size = UDim2.new(1, -20, 0, 15)
-            TransparencySlider.ZIndex = 11
+            CancelButton.Name = "Cancel"
+            CancelButton.Parent = ButtonsHolder
+            CancelButton.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
+            CancelButton.Position = UDim2.new(0.52, 0, 0, 0)
+            CancelButton.Size = UDim2.new(0.48, 0, 1, 0)
+            CancelButton.Font = Enum.Font.GothamBold
+            CancelButton.Text = "✕"
+            CancelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            CancelButton.TextSize = 14
+            CancelButton.ZIndex = 101
 
-            UICorner_8.CornerRadius = UDim.new(0, 4)
-            UICorner_8.Parent = TransparencySlider
-
-            TransparencyGradient.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0),
-                NumberSequenceKeypoint.new(1, 1)
-            })
-            TransparencyGradient.Parent = TransparencySlider
-
-            TransCursor.Name = "TransCursor"
-            TransCursor.Parent = TransparencySlider
-            TransCursor.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            TransCursor.Size = UDim2.new(0, 3, 1, 0)
-            TransCursor.ZIndex = 12
-
-            UICorner_9.CornerRadius = UDim.new(0, 2)
-            UICorner_9.Parent = TransCursor
-
-            ConfirmButton.Name = "ConfirmButton"
-            ConfirmButton.Parent = PickerFrame
-            ConfirmButton.BackgroundTransparency = 1
-            ConfirmButton.Position = UDim2.new(1, -35, 0, 5)
-            ConfirmButton.Size = UDim2.new(0, 25, 0, 25)
-            ConfirmButton.ZIndex = 12
-            ConfirmButton.Image = "rbxassetid://3926305904"
-            ConfirmButton.ImageRectOffset = Vector2.new(644, 204)
-            ConfirmButton.ImageRectSize = Vector2.new(36, 36)
-            ConfirmButton.ImageColor3 = Color3.fromRGB(0, 255, 0)
-
-            CancelButton.Name = "CancelButton"
-            CancelButton.Parent = PickerFrame
-            CancelButton.BackgroundTransparency = 1
-            CancelButton.Position = UDim2.new(1, -65, 0, 5)
-            CancelButton.Size = UDim2.new(0, 25, 0, 25)
-            CancelButton.ZIndex = 12
-            CancelButton.Image = "rbxassetid://3926305904"
-            CancelButton.ImageRectOffset = Vector2.new(924, 724)
-            CancelButton.ImageRectSize = Vector2.new(36, 36)
-            CancelButton.ImageColor3 = Color3.fromRGB(255, 0, 0)
-
-            -- Variables
-            local pickerOpen = false
-            local hue, sat, val = 0, 0, 1
-            local transparency = 0
-            local selectedColor = default or Color3.fromRGB(255, 255, 255)
-
-            -- Functions
-            local function updateColor()
-                local color = Color3.fromHSV(hue, sat, val)
-                ColorDisplay.BackgroundColor3 = color
-                Gradient.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
-                selectedColor = color
+            -- Add corner radius to all elements
+            for _, obj in pairs({Background, PickerFrame, ColorArea, HueSlider, ConfirmButton, CancelButton}) do
+                local corner = Instance.new("UICorner")
+                corner.CornerRadius = UDim.new(0, 4)
+                corner.Parent = obj
             end
 
-            -- Events
+            -- Variables for color picking
+            local pickerOpen = false
+            local hue, sat, val = 0, 1, 1
+            local selectedColor = default or Color3.fromRGB(255, 255, 255)
+
+            -- Color display click handler
             ColorDisplay.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     pickerOpen = not pickerOpen
-                    
-                    if pickerOpen then
-                        -- Position the picker frame relative to the ColorDisplay
-                        local absPos = ColorDisplay.AbsolutePosition
-                        local absSize = ColorDisplay.AbsoluteSize
-                        PickerFrame.Position = UDim2.new(0, absPos.X + absSize.X + 10, 0, absPos.Y)
-                        PickerFrame.Visible = true
-                        
-                        -- Fade in animation
-                        PickerFrame.BackgroundTransparency = 1
-                        for _, obj in pairs(PickerFrame:GetDescendants()) do
-                            if obj:IsA("Frame") or obj:IsA("TextLabel") or obj:IsA("ImageLabel") then
-                                obj.BackgroundTransparency = 1
-                            end
-                        end
-                        
-                        TweenService:Create(PickerFrame, TweenInfo.new(0.2), {
-                            BackgroundTransparency = 0
-                        }):Play()
-                        
-                        for _, obj in pairs(PickerFrame:GetDescendants()) do
-                            if obj:IsA("Frame") or obj:IsA("TextLabel") or obj:IsA("ImageLabel") then
-                                TweenService:Create(obj, TweenInfo.new(0.2), {
-                                    BackgroundTransparency = 0
-                                }):Play()
-                            end
-                        end
-                    else
-                        -- Fade out animation
-                        TweenService:Create(PickerFrame, TweenInfo.new(0.2), {
-                            BackgroundTransparency = 1
-                        }):Play()
-                        
-                        for _, obj in pairs(PickerFrame:GetDescendants()) do
-                            if obj:IsA("Frame") or obj:IsA("TextLabel") or obj:IsA("ImageLabel") then
-                                TweenService:Create(obj, TweenInfo.new(0.2), {
-                                    BackgroundTransparency = 1
-                                }):Play()
-                            end
-                        end
-                        
-                        task.wait(0.2)
-                        PickerFrame.Visible = false
-                    end
+                    PickerFrame.Visible = pickerOpen
                 end
             end)
 
-            Saturation.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    local function update()
-                        local pos = game:GetService("UserInputService"):GetMouseLocation() - Saturation.AbsolutePosition
-                        local x = math.clamp(pos.X / Saturation.AbsoluteSize.X, 0, 1)
-                        local y = math.clamp(pos.Y / Saturation.AbsoluteSize.Y, 0, 1)
-                        Cursor.Position = UDim2.new(x, -4, y, -4)
-                        sat = x
-                        val = 1 - y
-                        updateColor()
-                    end
-                    
-                    local connection
-                    connection = game:GetService("RunService").RenderStepped:Connect(update)
-                    
-                    game:GetService("UserInputService").InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            if connection then connection:Disconnect() end
-                        end
-                    end)
-                    
-                    update()
-                end
-            end)
-
-            HueSlider.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    local function update()
-                        local pos = game:GetService("UserInputService"):GetMouseLocation() - HueSlider.AbsolutePosition
-                        local x = math.clamp(pos.X / HueSlider.AbsoluteSize.X, 0, 1)
-                        HueCursor.Position = UDim2.new(x, -1, 0, 0)
-                        hue = x
-                        updateColor()
-                    end
-                    
-                    local connection
-                    connection = game:GetService("RunService").RenderStepped:Connect(update)
-                    
-                    game:GetService("UserInputService").InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            if connection then connection:Disconnect() end
-                        end
-                    end)
-                    
-                    update()
-                end
-            end)
-
-            TransparencySlider.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    local function update()
-                        local pos = game:GetService("UserInputService"):GetMouseLocation() - TransparencySlider.AbsolutePosition
-                        local x = math.clamp(pos.X / TransparencySlider.AbsoluteSize.X, 0, 1)
-                        TransCursor.Position = UDim2.new(x, -1, 0, 0)
-                        transparency = x
-                    end
-                    
-                    local connection
-                    connection = game:GetService("RunService").RenderStepped:Connect(update)
-                    
-                    game:GetService("UserInputService").InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            if connection then connection:Disconnect() end
-                        end
-                    end)
-                    
-                    update()
-                end
-            end)
-
+            -- Confirm button handler
             ConfirmButton.MouseButton1Click:Connect(function()
                 pickerOpen = false
                 PickerFrame.Visible = false
                 if callback then
-                    callback(selectedColor, transparency)
+                    callback(selectedColor)
                 end
             end)
 
+            -- Cancel button handler
             CancelButton.MouseButton1Click:Connect(function()
                 pickerOpen = false
                 PickerFrame.Visible = false
             end)
 
+            -- Color area input handler
+            ColorArea.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    local function update()
+                        local mouse = game:GetService("UserInputService"):GetMouseLocation()
+                        local relative = Vector2.new(
+                            math.clamp((mouse.X - ColorArea.AbsolutePosition.X) / ColorArea.AbsoluteSize.X, 0, 1),
+                            math.clamp((mouse.Y - ColorArea.AbsolutePosition.Y) / ColorArea.AbsoluteSize.Y, 0, 1)
+                        )
+                        sat = relative.X
+                        val = 1 - relative.Y
+                        selectedColor = Color3.fromHSV(hue, sat, val)
+                        ColorDisplay.BackgroundColor3 = selectedColor
+                    end
+                    
+                    local connection
+                    connection = game:GetService("RunService").RenderStepped:Connect(update)
+                    
+                    game:GetService("UserInputService").InputEnded:Connect(function(input)
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                            if connection then connection:Disconnect() end
+                        end
+                    end)
+                end
+            end)
+
+            -- Hue slider input handler
+            HueSlider.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    local function update()
+                        local mouse = game:GetService("UserInputService"):GetMouseLocation()
+                        local relative = math.clamp(
+                            (mouse.X - HueSlider.AbsolutePosition.X) / HueSlider.AbsoluteSize.X,
+                            0, 1
+                        )
+                        hue = relative
+                        ColorArea.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
+                        selectedColor = Color3.fromHSV(hue, sat, val)
+                        ColorDisplay.BackgroundColor3 = selectedColor
+                    end
+                    
+                    local connection
+                    connection = game:GetService("RunService").RenderStepped:Connect(update)
+                    
+                    game:GetService("UserInputService").InputEnded:Connect(function(input)
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                            if connection then connection:Disconnect() end
+                        end
+                    end)
+                end
+            end)
+
             return {
                 SetColor = function(color)
+                    selectedColor = color
+                    ColorDisplay.BackgroundColor3 = color
                     local h, s, v = color:ToHSV()
                     hue, sat, val = h, s, v
-                    updateColor()
+                    ColorArea.BackgroundColor3 = Color3.fromHSV(hue, 1, 1)
                 end,
                 GetColor = function()
-                    return selectedColor, transparency
+                    return selectedColor
                 end
             }
         end
